@@ -7,4 +7,5 @@ import pl.markowski.kinoteatr.model.Concession;
 @Repository
 public interface ConcessionRepository extends JpaRepository<Concession, Long> {
 
+    Concession findByName(final String name);
 }

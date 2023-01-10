@@ -2106,3 +2106,6 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/tur/Cinem
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 46 more
+2023-01-10 21:57:19 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INFORMATION_SCHEMA[*].VIEWS"; expected "INSERT"; SQL statement:
+INFORMATION_SCHEMA.VIEWS [42001-200]

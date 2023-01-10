@@ -43,6 +43,10 @@ public class Repertoire {
     @JoinColumn(name = "spectacle_id", referencedColumnName = "id")
     private Spectacle spectacle;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "concession_id", referencedColumnName = "id")
+    private Concession concession;
+
     @OneToMany(mappedBy = "repertoire", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 }

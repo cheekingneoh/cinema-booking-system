@@ -12,4 +12,6 @@ public interface RepertoireRepository extends JpaRepository<Repertoire, Long> {
     List<Repertoire> findByMovieId(final Long movieId);
 
     List<Repertoire> findBySpectacleId(final Long spectacleId);
+
+    List<Repertoire> findByConcessionId(final Long concessionId);
 }
