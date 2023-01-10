@@ -53,7 +53,7 @@
                                 <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/concessions/delete/{id}(id=${concession.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
                                 <!-- <td><a th:href="@{'/concessions/' + ${concession.name} + '/reservation'}" class="btn btn-primary"><i class="fa fa-camera-retro fa-lg"></i></a></td> -->
                                 <!-- <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{'/concessions/admin/'+${concession.name}+'/newRepertoire'}" class="btn btn-primary"><i class="far fa-clock"></i></a></td> -->
-                                <td th:text="${concession.stock}"></td>
+                                <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><Text th:text="${concession.stock}"></Text></td>
                             <tr><td colspan="8" class="description" th:text="${concession.description}"></td></tr>
                             </tr>
                             </tbody>
