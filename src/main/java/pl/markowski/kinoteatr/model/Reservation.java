@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -37,6 +38,8 @@ public class Reservation {
     @JoinColumn(name = "repertoire_id")
     private Repertoire repertoire;
 
-    @OneToMany(mappedBy = "reservation", orphanRemoval = true)
-    private List<Order> orders;
+    @JoinColumn(name = "order_id")
+    private UUID orderUuid;
+
+
 }

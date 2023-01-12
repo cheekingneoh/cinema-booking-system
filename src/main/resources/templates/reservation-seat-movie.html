@@ -78,6 +78,49 @@
                             <input type = "hidden" th:value="${repertoireId}">
 
                             </br>
+
+                            <div class="container my-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div th:switch="${concessions}" class="container my-5">
+                                            <div class="col-md-20">
+                                                <h2 th:case="null" >No Concession</h2>
+                                                <div th:case="*">
+                                                    <h2>Add to Enjoy The Food</h2>
+                                                    <table class="table table-striped table-responsive-md">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>NAME</th>
+                                                            <th>CATEGORY</th>
+                                                            <th>PRICE</th>
+                                                            <th>STOCK</th>
+                                                            <th>ACTION</th>
+                                                        </tr>
+                                                        </thead>
+
+                                                        <tbody th:each="concession : ${concessions}">
+                                                        <tr>
+                                                            <td><img class="image" th:src="${concession.imageUrl}"></td>
+                                                            <td th:text="${concession.name}"></td>
+                                                            <td th:text="${concession.category}"></td>
+                                                            <td th:text="'RM' + ${concession.price}"></td>
+                                                            <td th:text="'RM' + ${concession.stock}"></td>
+                                                            <td>
+                                                                <input th:field="*{foodOrder[__${concession.id}__]}" min="0" type="number">
+                                                            </td>
+                                                        <tr><td colspan="9" class="description" th:text="${concession.description}"></td></tr>
+                                                        <tr>
+                                                        </tbody>
+                                                        <tr>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit">Potwierdź rezerwację.</button>
                         </center>
                     </div>

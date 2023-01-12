@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class Order {
     @JoinColumn(name = "concession_id")
     private Concession concession;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+    @Column(name = "uuid")
+    private UUID uuid;
+
 }

@@ -14,23 +14,25 @@
 <body>
 
 <nav th:fragment="nav" class="topnav">
-    <a class="active" th:href="@{'/'}">Strona główna</a>
-    <a th:href="@{'/movies/list'}">Repertuar kina</a>
-    <a th:href="@{'/spectacles/list'}">Repertuar teatru</a>
+
+    <a class="active" th:href="@{'/'}">Home page</a>
+    <a th:href="@{'/movies/list'}">Movie</a>
+    <a th:href="@{'/spectacles/list'}">Spectacles</a>
     <a th:href="@{'/concessions/list'}">Concessions</a>
-    <a th:href="@{'/about'}">O nas</a>
-    <a th:href="@{'/localization'}">Kontakt i lokalizacja</a>
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"> <a th:href="@{'/movies/showForm'}">Dodaj film</a></div>
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"> <a th:href="@{'/spectacles/showForm'}">Dodaj spektakl</a></div>
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{'console'}">Baza danych</a></div>
+    <a th:href="@{'/about'}">About</a>
+    <a th:href="@{'/localization'}">Location</a>
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"> <a th:href="@{'/movies/showForm'}">Show Movie Form</a></div>
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"> <a th:href="@{'/spectacles/showForm'}">Show Spectacles Form</a></div>
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{'console'}">Console</a></div>
+
 
     <div class="test">
-        <a sec:authorize="!isAuthenticated()" class="nav-item"><a class="btn btn-outline-light" th:href="@{/register}">Zarejestruj się</a></a>
-        <a sec:authorize="!isAuthenticated()" class="nav-item"><a class="btn btn-outline-light" th:href="@{/login}">Zaloguj się</a></a>
+        <a sec:authorize="!isAuthenticated()" class="nav-item"><a class="btn btn-outline-light" th:href="@{/register}">Register</a></a>
+        <a sec:authorize="!isAuthenticated()" class="nav-item"><a class="btn btn-outline-light" th:href="@{/login}">Login</a></a>
 
         <a sec:authorize="isAuthenticated()" class="nav-item dropdown">
             <a class="nav-item" id="logoutNavbarDropdown" role="button"
-               aria-haspopup="true" aria-expanded="false" th:href="@{/logout}"> Wyloguj się
+               aria-haspopup="true" aria-expanded="false" th:href="@{/logout}"> Logout
             </a>
         </a>
 

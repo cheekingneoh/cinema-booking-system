@@ -6,19 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import pl.markowski.kinoteatr.model.Movie;
-import pl.markowski.kinoteatr.model.Repertoire;
-import pl.markowski.kinoteatr.model.Reservation;
-import pl.markowski.kinoteatr.model.ReserveSeatConfiguration;
-import pl.markowski.kinoteatr.model.SeatReservation;
-import pl.markowski.kinoteatr.model.Spectacle;
-import pl.markowski.kinoteatr.model.Ticket;
-import pl.markowski.kinoteatr.repository.MovieRepository;
-import pl.markowski.kinoteatr.repository.RepertoireRepository;
-import pl.markowski.kinoteatr.repository.ReservationRepository;
-import pl.markowski.kinoteatr.repository.SpectacleRepository;
-import pl.markowski.kinoteatr.repository.TicketRepository;
-import pl.markowski.kinoteatr.repository.UserRepository;
+import pl.markowski.kinoteatr.model.*;
+import pl.markowski.kinoteatr.repository.*;
 import pl.markowski.kinoteatr.service.ReservationService;
 
 import java.security.Principal;
@@ -46,6 +35,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final ConcessionRepository concessionRepository;
 
     @Override
     public String showMovieReservationPage(final String movieName, final Model model) {
@@ -65,7 +56,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public String showMovieReservationSeatPage(final String movieName, final Long repertoireId, final Model model) {
+        final List<Concession> concessions = concessionRepository.findAll();
         reserveSeats(model, repertoireId);
+        model.addAttribute("concessions", concessions);
         model.addAttribute("movieName", movieName);
         addRows(model, repertoireId);
         return "reservation-seat-movie";
@@ -82,6 +75,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public String reservation(final ReserveSeatConfiguration reserveSeatConfiguration, final Long repertoireId, final Principal principal) {
         final List<String> reservedSeats = getReservedSeats(reserveSeatConfiguration);
+        final UUID orderUuid = UUID.randomUUID();
+        for (Map.Entry<Long, Integer> entry : reserveSeatConfiguration.getFoodOrder().entrySet()) {
+            if(entry.getValue()!=null) {
+                Order order = new Order();
+                order.setUuid(orderUuid);
+                order.setConcession(concessionRepository.getOne(entry.getKey()));
+                order.setQuantity(entry.getValue());
+                orderRepository.save(order);
+            }
+        }
         if (reservedSeats.size() > 0 && reservedSeats.size() <= 15) {
             final UUID uuid = UUID.randomUUID();
             final Ticket ticket = new Ticket();
@@ -102,8 +105,10 @@ public class ReservationServiceImpl implements ReservationService {
                 }
             }
             reservation.setRepertoire(repertoire);
+            reservation.setOrderUuid(orderUuid);
             reservation.setUser(userRepository.findByUsername(principal.getName()));
             reservationRepository.save(reservation);
+
             return "redirect:/successful";
         } else {
             return "redirect:/unsuccessful";

@@ -9,6 +9,7 @@ public class ReserveSeatConfiguration {
 
     private SeatReservation seatReservation;
     private Map<String, Boolean> map;
+    private Map<Long, Integer> foodOrder;
 
     private Long id;
     private String string;
