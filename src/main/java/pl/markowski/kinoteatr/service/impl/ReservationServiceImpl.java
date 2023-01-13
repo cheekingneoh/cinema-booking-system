@@ -76,15 +76,14 @@ public class ReservationServiceImpl implements ReservationService {
     public String reservation(final ReserveSeatConfiguration reserveSeatConfiguration, final Long repertoireId, final Principal principal) {
         final List<String> reservedSeats = getReservedSeats(reserveSeatConfiguration);
         final UUID orderUuid = UUID.randomUUID();
+        boolean orderConcession = false;
         for (Map.Entry<Long, Integer> entry : reserveSeatConfiguration.getFoodOrder().entrySet()) {
             if(entry.getValue()!=null) {
-                Order order = new Order();
-                order.setUuid(orderUuid);
-                order.setConcession(concessionRepository.getOne(entry.getKey()));
-                order.setQuantity(entry.getValue());
-                orderRepository.save(order);
+                orderConcession=true;
+                break;
             }
         }
+
         if (reservedSeats.size() > 0 && reservedSeats.size() <= 15) {
             final UUID uuid = UUID.randomUUID();
             final Ticket ticket = new Ticket();
@@ -104,10 +103,24 @@ public class ReservationServiceImpl implements ReservationService {
                     reservation.setSpectacle(spectacleRepository.findByTitle(repertoire.getSpectacle().getTitle()));
                 }
             }
+            if(orderConcession){
+                reservation.setOrderCompleted(false);
+            }else{
+                reservation.setOrderCompleted(true);
+            }
             reservation.setRepertoire(repertoire);
-            reservation.setOrderUuid(orderUuid);
             reservation.setUser(userRepository.findByUsername(principal.getName()));
-            reservationRepository.save(reservation);
+            Reservation completedReservation = reservationRepository.save(reservation);
+
+            for (Map.Entry<Long, Integer> entry : reserveSeatConfiguration.getFoodOrder().entrySet()) {
+                if(entry.getValue()!=null) {
+                    Order order = new Order();
+                    order.setConcession(concessionRepository.getOne(entry.getKey()));
+                    order.setQuantity(entry.getValue());
+                    order.setReservation(completedReservation);
+                    orderRepository.save(order);
+                }
+            }
 
             return "redirect:/successful";
         } else {

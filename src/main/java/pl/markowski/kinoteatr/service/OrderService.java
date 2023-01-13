@@ -6,9 +6,8 @@ import pl.markowski.kinoteatr.model.Order;
 
 public interface OrderService {
 
-    String getOrder(final Model model);
+    String getOrders(final Model model);
 
-    String addOrder(final Order order, final BindingResult result, final Model model);
-
+    String completeOrder(long completedId, final Model model);
 
 }

@@ -38,8 +38,11 @@ public class Reservation {
     @JoinColumn(name = "repertoire_id")
     private Repertoire repertoire;
 
-    @JoinColumn(name = "order_id")
-    private UUID orderUuid;
+    @OneToMany(mappedBy = "reservation", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @Column(name = "order_completed", nullable = false, columnDefinition = "boolean default true")
+    private Boolean orderCompleted;
 
 
 }

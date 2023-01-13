@@ -24,7 +24,11 @@
             <div th:switch="${concessions}" class="container my-5">
                 <p class="my-5" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                     <a href="/concessions/showForm" class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2"> Add Concession</i></a>
+                        <i class="fas fa-user-plus ml-2"> Add Concession</i>
+                    </a>
+                    <a href="/concessions/admin/view-orders" class="btn btn-primary">
+                        <i class="fas fa-eye ml-2"> View Current Orders</i>
+                    </a>
                 </p>
                 <div class="col-md-20">
                     <h2 th:case="null">No Concessions</h2>

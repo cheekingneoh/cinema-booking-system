@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.markowski.kinoteatr.model.Repertoire;
 import pl.markowski.kinoteatr.model.Concession;
 import pl.markowski.kinoteatr.service.ConcessionService;
+import pl.markowski.kinoteatr.service.OrderService;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,9 +33,11 @@ public class ConcessionController {
         static final String UPDATE_REPERTOIRE_ID = CONCESSION_NAME + "/updateRepertoire/{repertoireId}";
         static final String UPDATE_REPERTOIRE = ADMIN + "/updateRepertoire";
         static final String DELETE_REPERTOIRE = ADMIN + "/deleteRepertoire/{repertoireId}";
+        static final String VIEW_ORDERS = ADMIN + "/view-orders";
     }
 
     private final ConcessionService concessionService;
+    private final OrderService orderService;
 
     @GetMapping(Routes.LIST)
     public String getConcessions(final Model model) {
@@ -98,5 +101,10 @@ public class ConcessionController {
     @Transactional
     public String deleteConcessionRepertoire(@PathVariable("repertoireId") final Long repertoireId, final Model model) {
         return concessionService.deleteConcessionRepertoire(repertoireId, model);
+    }
+
+    @GetMapping(Routes.VIEW_ORDERS)
+    public String showOrderPage(final Model model){
+        return orderService.getOrders(model);
     }
 }

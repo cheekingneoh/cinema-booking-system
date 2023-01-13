@@ -27,7 +27,8 @@ public class Order {
     @JoinColumn(name = "concession_id")
     private Concession concession;
 
-    @Column(name = "uuid")
-    private UUID uuid;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
 
 }

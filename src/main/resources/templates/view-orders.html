@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Orders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
+
+    <style>
+        td, th{
+            vertical-align:middle;
+            text-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="index :: nav"></div>
+
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${reservations}" class="container my-5">
+                <div class="col-md-20">
+                    <h2 th:case="null">No Orders</h2>
+                    <div th:case="*">
+                        <h1>Orders</h1>
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>User Email</th>
+                                    <th>Movie Name</th>
+                                    <th>Spectacle Name</th>
+                                    <th>Time</th>
+                                    <th>Concession Item</th>
+                                    <th>Quantity</th>
+                                    <th>Complete</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="reservation : ${reservations}">
+                                <tr>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:text="${reservation.user.name}"></td>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:text="${reservation.user.email}"></td>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:text="${reservation.movie!=null} ? ${reservation.movie.title}: ''" ></td>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:text="${reservation.spectacle!=null} ? ${reservation.spectacle.title}: ''" ></td>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:text="${reservation.repertoire.date}"></td>
+                                    <td th:text="${reservation.orders.get(0).concession.name}"></td>
+                                    <td th:text="${reservation.orders.get(0).quantity}"></td>
+                                    <td th:rowspan=${reservation.orders.size()*2-1} th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/order/complete/{id}(id=${reservation.id})}" class="btn btn-primary"><i class="fas fa-check ml-2"></i></a></td>
+                                </tr>
+                                <temp th:each="order, iterStat: ${reservation.orders}">
+                                    <tr>
+                                        <td th:if="${iterStat.index!=0}" th:text="${order.concession.name}" class="alt-row"></td>
+                                        <td th:if="${iterStat.index!=0}" th:text="${order.quantity}" class="alt-row"></td>
+                                    </tr>
+                                    <tr th:if="${iterStat.index!=0}"></tr>
+                                </temp>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
