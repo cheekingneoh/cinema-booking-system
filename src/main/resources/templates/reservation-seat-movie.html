@@ -22,7 +22,7 @@
     <div class="card">
         <div class="card-body">
             <div class="container my-5">
-                <h1 th:text="${movieName}"> Nazwa filmu</h1>
+                <h1 th:text="${movieName}"> Movie Name</h1>
 
                 <form th:action="@{'/reservation/save/' + ${repertoireId}}" th:object="${seatInfo}" method="post">
 
@@ -33,11 +33,11 @@
                                 <p id="notification"></p>
                                 <tr>
                                     <td colspan="16">
-                                        <div class="screen">EKRAN</div>
+                                        <div class="screen">Screen</div>
                                     </td>
                                     <td rowspan="22">
-                                        <div class="smallBox greenBox">Wybrane miejsce</div><br/>
-                                        <div class="smallBox redBox">Zajęte miejsce</div><br/>
+                                        <div class="smallBox greenBox">Selected seats</div><br/>
+                                        <div class="smallBox redBox">Reserved Seats</div><br/>
                                     </td>
 
                                     <br/>
@@ -95,7 +95,7 @@
                                                             <th>CATEGORY</th>
                                                             <th>PRICE</th>
                                                             <th>STOCK</th>
-                                                            <th>ACTION</th>
+                                                            <th>ORDER</th>
                                                         </tr>
                                                         </thead>
 
@@ -105,7 +105,7 @@
                                                             <td th:text="${concession.name}"></td>
                                                             <td th:text="${concession.category}"></td>
                                                             <td th:text="'RM' + ${concession.price}"></td>
-                                                            <td th:text="'RM' + ${concession.stock}"></td>
+                                                            <td th:text="${concession.stock}"></td>
                                                             <td>
                                                                 <input th:field="*{foodOrder[__${concession.id}__]}" min="0" type="number">
                                                             </td>
@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit">Potwierdź rezerwację.</button>
+                            <button type="submit">Confirm reservation.</button>
                         </center>
                     </div>
                 </form>

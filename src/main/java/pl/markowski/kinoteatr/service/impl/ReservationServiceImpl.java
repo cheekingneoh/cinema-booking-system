@@ -115,9 +115,12 @@ public class ReservationServiceImpl implements ReservationService {
             for (Map.Entry<Long, Integer> entry : reserveSeatConfiguration.getFoodOrder().entrySet()) {
                 if(entry.getValue()!=null) {
                     Order order = new Order();
-                    order.setConcession(concessionRepository.getOne(entry.getKey()));
+                    Concession concession = concessionRepository.getOne(entry.getKey());
+                    concession.setStock(concession.getStock()-entry.getValue());
+                    order.setConcession(concession);
                     order.setQuantity(entry.getValue());
                     order.setReservation(completedReservation);
+                    concessionRepository.save(concession);
                     orderRepository.save(order);
                 }
             }

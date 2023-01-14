@@ -33,15 +33,15 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Tytuł</th>
-                                <th>Kategoria</th>
-                                <th>Czas trwania</th>
-                                <th>Minimalny wiek</th>
-                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Edytuj</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Duration</th>
+                                <th>Age restrictions</th>
+                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Edit</th>
 
-                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Usuń</th>
-                                <th>Rezerwuję</th>
-                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Dodaj czas</th>
+                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Delete</th>
+                                <th>Book</th>
+                                <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Add time slots</th>
 
                             </tr>
                             </thead>
